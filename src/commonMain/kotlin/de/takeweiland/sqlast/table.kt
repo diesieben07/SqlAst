@@ -39,15 +39,15 @@ data class Cte(val query: Query, val alias: TableAlias)
 sealed class SetExpr
 
 data class Select(
-    val distinct: Boolean,
+    val distinct: Boolean = false,
     val items: List<Item>,
     val from: List<TableReference>,
-    val where: Expr?,
-    val groupBy: List<Expr>,
-    val having: Expr?
+    val where: Expr? = null,
+    val groupBy: List<Expr> = emptyList(),
+    val having: Expr? = null
 ): SetExpr() {
 
-    data class Item(val expr: Expr, val alias: String?)
+    data class Item(val expr: Expr, val alias: String? = null)
 
 }
 
@@ -59,20 +59,19 @@ enum class SetOperator {
 
 data class SetOperation(
     val op: SetOperator,
-    val all: Boolean,
     val left: SetExpr,
-    val right: SetExpr
+    val right: SetExpr,
+    val all: Boolean = false
 ) : SetExpr()
 
 data class Values(val values: List<List<Expr>>) : SetExpr()
 
 data class Query(
-    val ctes: List<Cte>,
+    val ctes: List<Cte> = emptyList(),
     val body: SetExpr,
-    val orderBy: List<OrderByExpr>,
-    val limit: Expr?,
-    val offset: Expr?
-
+    val orderBy: List<OrderByExpr> = emptyList(),
+    val limit: Expr? = null,
+    val offset: Expr? = null
 ) : SetExpr()
 
 enum class Order {
@@ -80,4 +79,4 @@ enum class Order {
     DESC
 }
 
-data class OrderByExpr(val expr: Expr, val order: Order)
+data class OrderByExpr(val expr: Expr, val order: Order = Order.ASC)
