@@ -9,3 +9,4 @@ pluginManagement {
 }
 rootProject.name = "SqlAst"
 
+enableFeaturePreview("GRADLE_METADATA")

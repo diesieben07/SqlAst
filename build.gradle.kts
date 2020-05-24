@@ -1,5 +1,6 @@
 plugins {
     kotlin("multiplatform") version "1.4-M1"
+    `maven-publish`
 }
 
 group = "de.take_weiland.sqlast"
