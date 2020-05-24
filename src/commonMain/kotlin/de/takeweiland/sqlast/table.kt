@@ -4,8 +4,10 @@ sealed class TableReference
 
 sealed class TableFactor : TableReference() {
 
-    data class Table(val name: ObjectName, val alias: TableAlias?) : TableFactor()
-    data class Derived(val subquery: Query, val alias: String?): TableFactor()
+    data class Table(val name: ObjectName, val alias: TableAlias? = null) : TableFactor() {
+        constructor(name: ObjectName, alias: String?) : this(name, alias?.let { TableAlias(it) })
+    }
+    data class Derived(val subquery: Query, val alias: String? = null): TableFactor()
 
 }
 
@@ -15,7 +17,7 @@ data class JoinedTable(
     val specification: JoinSpecification?
 ) : TableReference()
 
-data class TableAlias(val alias: String, val colList: List<String>)
+data class TableAlias(val alias: String, val colList: List<String> = emptyList())
 
 enum class JoinOperator {
 
